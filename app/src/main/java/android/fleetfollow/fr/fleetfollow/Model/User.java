@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    String firstname;
-    String lastname;
-    String phoneNumber;
-    String id;
-    String lastTimeSeen;
-    String LastAdress;
-    String InMoveStatus;
-    String email;
+    public String firstname;
+    public String lastname;
+    public String phoneNumber;
+    public String id;
+    public String lastTimeSeen;
+    public String LastAdress;
+    public String InMoveStatus;
+    public String email;
 
 
     public User(String firstname, String lastname, String phoneNumber, String id, String lastTimeSeen){
