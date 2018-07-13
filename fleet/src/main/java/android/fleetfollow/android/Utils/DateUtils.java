@@ -1,4 +1,4 @@
-package android.fleetfollow.fr.fleetfollow.Utils;
+package android.fleetfollow.android.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package android.fleetfollow.fr.fleetfollow.Model;
+package android.fleetfollow.android;
 
 import java.io.Serializable;
 
@@ -55,8 +55,4 @@ public class User implements Serializable {
     public void SetlastTime(String lastTime){
         this.lastTimeSeen = lastTime;
     }
-
-
-
-
 }

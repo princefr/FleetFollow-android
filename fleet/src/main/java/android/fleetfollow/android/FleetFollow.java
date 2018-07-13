@@ -1,12 +1,10 @@
-package android.fleetfollow.fr.fleetfollow.Model;
+package android.fleetfollow.android;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.fleetfollow.fr.fleetfollow.Utils.DateUtils;
-import android.fleetfollow.fr.fleetfollow.Utils.DistanceUtil;
-import android.fleetfollow.fr.fleetfollow.Utils.PermissionHelper;
+import android.fleetfollow.android.Utils.DateUtils;
+import android.fleetfollow.android.Utils.PermissionHelper;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,12 +14,9 @@ import android.util.Log;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.LocationCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,12 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
 
 public class FleetFollow {
 
@@ -89,6 +82,7 @@ public class FleetFollow {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                currentUser = task.getResult().getUser();
                                 final String user = task.getResult().getUser().getUid();
                                 Log.i("FleetFollow", user + " " + "got my user here");
                                 db.child("users").child(user).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -147,15 +141,19 @@ public class FleetFollow {
     public void UploadPosition() {
         handler = new Handler();
         runnable = new Runnable() {
+            @SuppressLint("MissingPermission")
             @Override
             public void run() {
                 handler.postDelayed(runnable, 5000);
                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(final Location location) {
+                        Log.w("TAG", "uploading the position");
                         geoFire.getLocation(currentUser.getUid(), new LocationCallback() {
                             @Override
                             public void onLocationResult(String key, GeoLocation LastLocation) {
+                                Log.w("TAG", "Geofire is working" + " " + String.valueOf(LastLocation));
+
                                 if(LastLocation != null){
                                     Location loc1 = new Location("");
                                     loc1.setLatitude(location.getLatitude());
@@ -192,6 +190,16 @@ public class FleetFollow {
 
                                     }
 
+                                }else{
+                                    UserModel.SetInMoveStatus("Actif");
+                                    try {
+                                        UserModel.SetlastTime(DateUtils.FromDateToString(new Date()));
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    geoFire.setLocation(currentUser.getUid(), new GeoLocation(location.getLatitude(), location.getLongitude()));
+                                    db.child("users").child(currentUser.getUid()).setValue(UserModel);
+                                    Log.w("TAG", "Geofire is null" );
                                 }
                             }
 
@@ -207,11 +215,5 @@ public class FleetFollow {
         };
         handler.post(runnable);
     }
-
-
-
-
-
-
 
 }

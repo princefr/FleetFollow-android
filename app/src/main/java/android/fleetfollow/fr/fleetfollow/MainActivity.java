@@ -1,11 +1,13 @@
 package android.fleetfollow.fr.fleetfollow;
 
-import android.fleetfollow.fr.fleetfollow.Model.FleetFollow;
-import android.fleetfollow.fr.fleetfollow.Model.User;
+
+import android.fleetfollow.android.FleetFollow;
+import android.fleetfollow.android.User;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
+
     private FleetFollow fleetFollow;
 
     @Override
@@ -14,8 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fleetFollow = new FleetFollow();
-        fleetFollow.Init(this, "<khdkjklshjkhs", new User("prince", "ondonda", "sdqdq", "qsdqsdqsdq", ""));
-
+        fleetFollow.Init(this, "sqd", new User("Marc", "Landers", "", "762665Z", ""));
 
     }
 

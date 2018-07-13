@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "602794348200",
+    "firebase_url": "https://fleetfollow-4de9e.firebaseio.com",
+    "project_id": "fleetfollow-4de9e",
+    "storage_bucket": "fleetfollow-4de9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602794348200:android:15b7f526ffc1da0d",
+        "android_client_info": {
+          "package_name": "android.fleetfollow.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602794348200-f1n3pqbsutvild14jrskcc14j2410ei7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDer_-mhcYjvvsKNTw67ZP_nQ8hXpGYeYI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602794348200:android:226c8d4e458b26bc",
+        "android_client_info": {
+          "package_name": "android.fleetfollow.fr.fleetfollow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602794348200-vg3qg8e86e4ur0p2agn5pl4c5qqqfvn7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "android.fleetfollow.fr.fleetfollow",
+            "certificate_hash": "e848238667885102e5b762bd858337630621386f"
+          }
+        },
+        {
+          "client_id": "602794348200-f1n3pqbsutvild14jrskcc14j2410ei7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDer_-mhcYjvvsKNTw67ZP_nQ8hXpGYeYI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602794348200-f1n3pqbsutvild14jrskcc14j2410ei7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602794348200-8u0e9av73dpk7on6seq4ho9mvn5vsc70.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.fleetfollow.ios.FleetFollow"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
