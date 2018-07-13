@@ -176,7 +176,7 @@ public class FleetFollow {
                                         geoFire.setLocation(currentUser.getUid(), new GeoLocation(location.getLatitude(), location.getLongitude()));
                                         db.child("users").child(currentUser.getUid()).setValue(UserModel);
                                         String StorageKey = db.push().getKey();
-                                        db.child("GeolocationArchive").child(currentUser.getUid()).child(StorageKey).setValue(location);
+                                        db.child("GeolocationArchive").child(currentUser.getUid()).child(StorageKey).setValue(new GeoLocation(location.getLatitude(), location.getLongitude()));
                                     }else{
                                         UserModel.SetInMoveStatus("Inactif");
                                         Geocoder geocoder = new Geocoder(context, Locale.getDefault());

@@ -3,10 +3,10 @@ package android.fleetfollow.android;
 import java.io.Serializable;
 
 public class Location implements Serializable {
-    double longitude;
-    double latitude;
+    String longitude;
+    String latitude;
 
-    Location(double longitude, double latitude){
+    Location(String longitude, String latitude){
         this.latitude = latitude;
         this.longitude = longitude;
     }
