@@ -162,10 +162,10 @@ public class FleetFollow {
                                     loc2.setLatitude(LastLocation.latitude);
                                     loc2.setLongitude(LastLocation.longitude);
                                     float distanceInMeters = loc1.distanceTo(loc2);
-                                    float maximumToMove = (float) 1.0;
+                                    float maximumToMove = (float) 0.01;
                                     int retval = Float.compare(distanceInMeters, maximumToMove);
                                     Log.i("FleetFollow", String.valueOf(retval));
-                                    if(retval > 0){
+                                    if(retval > 0) {
                                         Log.i("FleetFollow", "je bouge");
                                         UserModel.SetInMoveStatus("Actif");
                                         try {
@@ -177,6 +177,25 @@ public class FleetFollow {
                                         db.child("users").child(currentUser.getUid()).setValue(UserModel);
                                         String StorageKey = db.push().getKey();
                                         db.child("GeolocationArchive").child(currentUser.getUid()).child(StorageKey).setValue(new GeoLocation(location.getLatitude(), location.getLongitude()));
+                                        
+
+                                        // query destination ;
+
+                                        db.child("users").child(currentUser.getUid()).child("destination").addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                              if(dataSnapshot != null){
+
+                                              }else{
+                                                  Log.i("FleetFollow", "sdfssdfds");
+                                              }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }else{
                                         UserModel.SetInMoveStatus("Inactif");
                                         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -216,6 +235,14 @@ public class FleetFollow {
             }
         };
         handler.post(runnable);
+    }
+
+
+
+    public void setDestination(Location location, String destination, String arrivakTime){
+        String key = db.child("destination").push().getKey();
+        db.child("destination").child(key).setValue(new Destination(location, destination, arrivakTime));
+       // db.child('users').
     }
 
 }

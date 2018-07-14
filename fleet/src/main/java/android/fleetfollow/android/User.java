@@ -1,6 +1,7 @@
 package android.fleetfollow.android;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -12,6 +13,7 @@ public class User implements Serializable {
     public String LastAdress;
     public String InMoveStatus;
     public String email;
+    private List<Object> destination;
 
 
     public User(String firstname, String lastname, String phoneNumber, String id, String lastTimeSeen){
