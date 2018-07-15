@@ -177,7 +177,7 @@ public class FleetFollow {
                                         db.child("users").child(currentUser.getUid()).setValue(UserModel);
                                         String StorageKey = db.push().getKey();
                                         db.child("GeolocationArchive").child(currentUser.getUid()).child(StorageKey).setValue(new GeoLocation(location.getLatitude(), location.getLongitude()));
-                                        
+
 
                                         // query destination ;
 
