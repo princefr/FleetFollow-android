@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getUser = (Button) findViewById(R.id.getUser);
-        FleetFollow fleetFollow = new FleetFollow();
-        fleetFollow.Init(this, "sqdqs", new User("Test", "Testounet", "pds", "qsd", ""));
+        // FleetFollow fleetFollow = new FleetFollow();
+        // fleetFollow.Init(this, "sqdqs", new User("Test", "Testounet", "pds", "qsd", ""));
 
 
 
