@@ -1,4 +1,4 @@
-# FollowFleet android SDK
+# FleetFollow android SDK
 
 
 Fleetfollow is a real-time gps tracking sdk to integrate with your applications that will help you improve the efficiency of your team's operations management.

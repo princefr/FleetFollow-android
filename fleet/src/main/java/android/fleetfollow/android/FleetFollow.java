@@ -3,6 +3,7 @@ package android.fleetfollow.android;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.fleetfollow.android.Utils.DateUtils;
 import android.fleetfollow.android.Utils.PermissionHelper;
 import android.location.Address;
@@ -37,16 +38,16 @@ import java.util.Locale;
 
 public class FleetFollow {
 
-    private Activity context;
-    private User UserModel;
+    public static Activity context;
+    public static User UserModel;
     private FirebaseAuth mAuth;
-    GeoFire geoFire;
+    public static GeoFire geoFire;
     DatabaseReference ref;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference();
     private FusedLocationProviderClient fusedLocationProviderClient;
     public Handler handler = null;
     public static Runnable runnable = null;
-    FirebaseUser currentUser;
+    public static FirebaseUser currentUser;
 
     /**
      *
@@ -76,7 +77,7 @@ public class FleetFollow {
     private void Login() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
+        if(currentUser == null) {
             mAuth.signInAnonymously()
                     .addOnCompleteListener(this.context, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -139,110 +140,10 @@ public class FleetFollow {
 
 
     public void UploadPosition() {
-        handler = new Handler();
-        runnable = new Runnable() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void run() {
-                handler.postDelayed(runnable, 5000);
-                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(final Location location) {
-                        Log.w("TAG", "uploading the position");
-                        geoFire.getLocation(currentUser.getUid(), new LocationCallback() {
-                            @Override
-                            public void onLocationResult(String key, GeoLocation LastLocation) {
-                                Log.w("TAG", "Geofire is working" + " " + String.valueOf(LastLocation));
-
-                                if(LastLocation != null){
-                                    Location loc1 = new Location("");
-                                    loc1.setLatitude(location.getLatitude());
-                                    loc1.setLongitude(location.getLongitude());
-                                    Location loc2 = new Location("");
-                                    loc2.setLatitude(LastLocation.latitude);
-                                    loc2.setLongitude(LastLocation.longitude);
-                                    float distanceInMeters = loc1.distanceTo(loc2);
-                                    float maximumToMove = (float) 0.01;
-                                    int retval = Float.compare(distanceInMeters, maximumToMove);
-                                    Log.i("FleetFollow", String.valueOf(retval));
-                                    if(retval > 0) {
-                                        Log.i("FleetFollow", "je bouge");
-                                        UserModel.SetInMoveStatus("Actif");
-                                        try {
-                                            UserModel.SetlastTime(DateUtils.FromDateToString(new Date()));
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-                                        geoFire.setLocation(currentUser.getUid(), new GeoLocation(location.getLatitude(), location.getLongitude()));
-                                        db.child("users").child(currentUser.getUid()).setValue(UserModel);
-                                        String StorageKey = db.push().getKey();
-                                        db.child("GeolocationArchive").child(currentUser.getUid()).child(StorageKey).setValue(new GeoLocation(location.getLatitude(), location.getLongitude()));
-
-
-                                        // query destination ;
-
-                                        db.child("users").child(currentUser.getUid()).child("destination").addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                              if(dataSnapshot != null){
-
-                                              }else{
-                                                  Log.i("FleetFollow", "sdfssdfds");
-                                              }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
-                                    }else{
-                                        UserModel.SetInMoveStatus("Inactif");
-                                        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-                                        try {
-                                            List<Address> addresses = geocoder.getFromLocation(LastLocation.latitude, LastLocation.longitude, 1);
-                                            String address = addresses.get(0).getAddressLine(0);
-                                            UserModel.SetLastAdress(address);
-                                            db.child("users").child(currentUser.getUid()).setValue(UserModel);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-
-
-                                    }
-
-                                }else{
-                                    UserModel.SetInMoveStatus("Actif");
-                                    try {
-                                        UserModel.SetlastTime(DateUtils.FromDateToString(new Date()));
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    geoFire.setLocation(currentUser.getUid(), new GeoLocation(location.getLatitude(), location.getLongitude()));
-                                    db.child("users").child(currentUser.getUid()).setValue(UserModel);
-                                    Log.w("TAG", "Geofire is null" );
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-                    }
-                });
-            }
-        };
-        handler.post(runnable);
+        Fleet.context = context;
+        context.startService(new Intent(context, Fleet.class));
     }
 
 
-
-    public void setDestination(Location location, String destination, String arrivakTime){
-        String key = db.child("destination").push().getKey();
-        db.child("destination").child(key).setValue(new Destination(location, destination, arrivakTime));
-       // db.child('users').
-    }
 
 }
