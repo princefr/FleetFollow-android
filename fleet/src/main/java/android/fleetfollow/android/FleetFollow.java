@@ -44,7 +44,6 @@ public class FleetFollow {
     public static GeoFire geoFire;
     DatabaseReference ref;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-    private FusedLocationProviderClient fusedLocationProviderClient;
     public Handler handler = null;
     public static Runnable runnable = null;
     public static FirebaseUser currentUser;
@@ -65,7 +64,6 @@ public class FleetFollow {
         }else{
             this.context = context;
             this.UserModel = user;
-            this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.context);
             Login();
         }
     }

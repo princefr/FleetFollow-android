@@ -34,7 +34,7 @@ public class FleetLocationListener implements LocationListener {
     DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("geofire");
     GeoFire geoFire = geoFire = new GeoFire(ref);
     DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-    private User UserModel = FleetFollow.UserModel;
+    private static User UserModel = FleetFollow.UserModel;
     FirebaseUser currentUser = FleetFollow.currentUser;
     private Activity context = FleetFollow.context;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
